@@ -1,8 +1,12 @@
+import 'package:calendar_example/home_page.dart';
 import 'package:calendar_example/widgets/nav_bar.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
+import 'my_custom_clipper.dart';
+import 'my_custom_shape_border.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,10 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
       home: Home(),
+      //home: HomePage(),
     );
   }
 }
@@ -248,13 +253,35 @@ class _HomeState extends State<Home> {
             ));
   }
 
+  void showButtonModal2() {
+    showModalBottomSheet(
+        anchorPoint: Offset(0.6, 0.6),
+        context: context,
+        isScrollControlled: true,
+        elevation: 20,
+        shape: MyCustomShapeBorder(MyCustomClipper()),
+        builder: (_) {
+          final controller = DateRangePickerController();
+
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Column(
+                children: [Text("data2")],
+              ),
+            ),
+          );
+        });
+  }
+
   void showButtonModal() {
     showModalBottomSheet(
         anchorPoint: Offset(0.6, 0.6),
         context: context,
         isScrollControlled: true,
         elevation: 20,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: MyCustomShapeBorder(MyCustomClipper()),
         builder: (context) {
           DateRangePickerController _controller = DateRangePickerController();
           return StatefulBuilder(
@@ -262,6 +289,7 @@ class _HomeState extends State<Home> {
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
               child: Scaffold(
+                backgroundColor: Colors.transparent,
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: FloatingActionButton(
@@ -306,43 +334,41 @@ class _HomeState extends State<Home> {
                 ),
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(65),
-                  child: Container(
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          child: TextButton(
+                            onPressed: () {
+                              _controller.selectedRanges = [];
+                              setState(() {});
+                            },
+                            child: Text('Reset',
+                                style: TextStyle(color: Colors.blue)),
+                          ),
+                        ),
+                      ),
+                      Transform.translate(
+                        offset: const Offset(6, -25),
+                        child: Align(
+                          alignment: Alignment.center,
                           child: Container(
-                            child: TextButton(
-                              onPressed: () {
-                                _controller.selectedRanges = [];
-                                setState(() {});
-                              },
-                              child: Text('Reset',
-                                  style: TextStyle(color: Colors.blue)),
-                            ),
-                          ),
-                        ),
-                        Transform.translate(
-                          offset: const Offset(0, -35),
-                          child: Align(
+                            width: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(10)),
                             alignment: Alignment.center,
-                            child: Container(
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(10)),
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.calendar_month,
-                                color: Colors.white,
-                                size: 50,
-                              ),
+                            child: Icon(
+                              Icons.calendar_month,
+                              color: Colors.white,
+                              size: 50,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 body: SingleChildScrollView(
