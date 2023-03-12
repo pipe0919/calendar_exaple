@@ -225,18 +225,20 @@ class _HomeState extends State<Home> {
   }
 
   void showMyPicker() async {
-    showDialog(
+    showCupertinoDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => CupertinoAlertDialog(
               title: Center(child: const Text("Pick Up Time")),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
               content: Container(
-                  height: 150,
+                  height: 250,
                   width: double.infinity,
-                  child: CupertinoDatePicker(onDateTimeChanged: (v) {
-                    print(v);
-                  })),
+                  child: Column(
+                    children: [
+                      CupertinoTimerPicker(onTimerDurationChanged: (v) {
+                        print(v);
+                      }),
+                    ],
+                  )),
               actions: [
                 TextButton(
                   onPressed: () {
