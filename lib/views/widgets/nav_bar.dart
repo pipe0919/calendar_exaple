@@ -11,30 +11,30 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) {
     return FABBottomAppBar(
-      notchedShape: CircularNotchedRectangle(),
+      notchedShape: const CircularNotchedRectangle(),
       backgroundColor: Colors.white,
       onTabSelected: (v) {},
       items: [
         FABBottomAppBarItem(
-            iconData: Icon(
+            iconData: const Icon(
               Icons.search,
               color: Colors.blue,
             ),
             text: 'Search'),
         FABBottomAppBarItem(
-            iconData: Icon(
+            iconData: const Icon(
               Icons.favorite,
               color: Colors.blue,
             ),
             text: 'Favorites'),
         FABBottomAppBarItem(
-            iconData: Icon(
+            iconData: const Icon(
               Icons.drive_eta,
               color: Colors.blue,
             ),
             text: 'Booking'),
         FABBottomAppBarItem(
-            iconData: Icon(
+            iconData: const Icon(
               Icons.person_outline_outlined,
               color: Colors.blue,
             ),
@@ -55,6 +55,7 @@ class FABBottomAppBarItem {
 
 class FABBottomAppBar extends StatefulWidget {
   FABBottomAppBar({
+    super.key,
     required this.items,
     required this.centerItemText,
     this.height = 60.0,
@@ -65,7 +66,7 @@ class FABBottomAppBar extends StatefulWidget {
     this.notchedShape,
     required this.onTabSelected,
   }) {
-    assert(this.items.length == 2 || this.items.length == 4);
+    assert(items.length == 2 || items.length == 4);
   }
   final List<FABBottomAppBarItem> items;
   final String centerItemText;
@@ -105,12 +106,12 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     return BottomAppBar(
       elevation: 50,
       shape: widget.notchedShape,
+      color: widget.backgroundColor,
       child: Row(
-        children: items,
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: items,
       ),
-      color: widget.backgroundColor,
     );
   }
 
@@ -125,7 +126,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
             SizedBox(height: widget.iconSize),
             Text(
               widget.centerItemText,
-              style: TextStyle(color: widget.color),
+              style: TextStyle(color: widget.color, fontSize: 15),
             ),
           ],
         ),
